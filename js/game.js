@@ -29,7 +29,7 @@ function init() {
   createGhosts(gBoard);
   gGame.isWinner = false;
   gCherryInterval = setInterval(createcherry, 15000);
-  gSuperPowerInterval = setInterval(createSuperPower, 30000);
+  gSuperPowerInterval = setInterval(createSuperPower, 10000);
 
   //DOM
   printMat(gBoard, ".board-container");

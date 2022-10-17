@@ -1,6 +1,7 @@
 const PACMAN = "😉";
 
 const PACMAN_IMG = `<img src="img/pacman.png" />`;
+const PACMANSuperPower_IMG = `<img src="img/pacmanSuperPower.png" />`;
 const PACMANGRAV_IMG = `<img src="img/pacmanGrave.png" />`;
 
 let gPacman;
@@ -19,6 +20,7 @@ function createPacman(board) {
 }
 
 function movePacman(event) {
+  let currentPackMan;
   let nextLocation = {
     i: gPacman.location.i,
     j: gPacman.location.j,
@@ -58,6 +60,8 @@ function movePacman(event) {
   } else if (gBoard[nextLocation.i][nextLocation.j] === CHERRY) {
     updateScore(50);
   } else if (gBoard[nextLocation.i][nextLocation.j] === SUPER) {
+    gPacman.isSuper = true;
+    setTimeout(disableSuperPower, 3000);
     updateScore(100);
   }
 
@@ -71,7 +75,12 @@ function movePacman(event) {
 
   //Update DOM
   renderCell(gPacman.location, EMPTY);
-  renderCell(nextLocation, PACMAN_IMG);
+  if (gPacman.isSuper === true) {
+    currentPackMan = PACMANSuperPower_IMG;
+  } else {
+    currentPackMan = PACMAN_IMG;
+  }
+  renderCell(nextLocation, currentPackMan);
 
   addDirectClass(nextLocation, event.key);
 
@@ -79,4 +88,9 @@ function movePacman(event) {
     gameOver();
     return;
   }
+}
+
+function disableSuperPower() {
+  gPacman.isSuper = false;
+  renderCell(gPacman.location, PACMAN_IMG);
 }
