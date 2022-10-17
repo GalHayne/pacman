@@ -86,3 +86,21 @@ function getEmptyCells(board) {
   }
   return emptyCells;
 }
+
+function getEmptyCorners() {
+  let emptyCorners = [];
+  if (gBoard[1][1] === EMPTY) {
+    emptyCorners.push({ i: 1, j: 1 });
+  }
+  if (gBoard[1][gBoard[0].length - 2] === EMPTY) {
+    emptyCorners.push({ i: 1, j: gBoard[0].length - 2 });
+  }
+  if (gBoard[gBoard[0].length - 2][1] === EMPTY) {
+    emptyCorners.push({ i: gBoard[0].length - 2, j: 1 });
+  }
+  if (gBoard[gBoard[0].length - 2][gBoard[0].length - 2] === EMPTY) {
+    emptyCorners.push({ i: gBoard[0].length - 2, j: gBoard[0].length - 2 });
+  }
+
+  return emptyCorners;
+}

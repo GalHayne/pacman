@@ -1,11 +1,13 @@
 const WALL = "#";
-const FOOD = "🍗";
+const FOOD = "🥚";
 const EMPTY = " ";
 const CHERRY = "🍒";
+const SUPER = "💪";
 
 let gBoard;
 let gSize = 9;
 let gCherryInterval;
+let gSuperPowerInterval;
 
 let gGame = {
   score: 0,
@@ -27,6 +29,7 @@ function init() {
   createGhosts(gBoard);
   gGame.isWinner = false;
   gCherryInterval = setInterval(createcherry, 15000);
+  gSuperPowerInterval = setInterval(createSuperPower, 30000);
 
   //DOM
   printMat(gBoard, ".board-container");
@@ -70,6 +73,7 @@ function gameOver() {
 
   clearTimeout(gIntervalGhosts);
   clearInterval(gCherryInterval);
+  clearInterval(gSuperPowerInterval);
 
   if (gGame.isWinner === false) {
     renderCell(gPacman.location, PACMANGRAV_IMG);
@@ -123,5 +127,14 @@ function createcherry() {
     gBoard[cherryLocation.i][cherryLocation.j] = CHERRY;
 
     renderCell(cherryLocation, CHERRY);
+  }
+}
+
+function createSuperPower() {
+  let locations = getEmptyCorners();
+
+  for (let i = 0; i < locations.length; ++i) {
+    gBoard[locations[i].i][locations[i].j] = SUPER;
+    renderCell(locations[i], SUPER);
   }
 }

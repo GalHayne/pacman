@@ -57,6 +57,8 @@ function movePacman(event) {
     }
   } else if (gBoard[nextLocation.i][nextLocation.j] === CHERRY) {
     updateScore(50);
+  } else if (gBoard[nextLocation.i][nextLocation.j] === SUPER) {
+    updateScore(100);
   }
 
   //Update DOM
