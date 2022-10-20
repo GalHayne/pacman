@@ -38,3 +38,14 @@ img {
   margin-left: auto;
   margin-right: auto;
 }
+
+.endGameMsg {
+  background-color: rgb(230, 230, 5);
+  position: absolute;
+  height: 180px;
+  width: 350px;
+  margin-left: 35.5%;
+  margin-top: 240px;
+  border-radius: 5px;
+  border: solid black 2px;
+}

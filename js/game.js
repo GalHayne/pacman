@@ -20,6 +20,7 @@ function init() {
 
   //MODEL
   gFood = gSize * gSize - 1;
+  gGhostID = 0;
   clearGhostsArr();
   updateScore(0);
   removeNewGame();
@@ -29,7 +30,7 @@ function init() {
   createGhosts(gBoard);
   gGame.isWinner = false;
   gCherryInterval = setInterval(createcherry, 15000);
-  gSuperPowerInterval = setInterval(createSuperPower, 10000);
+  gSuperPowerInterval = setInterval(createSuperPower, 20000);
 
   //DOM
   printMat(gBoard, ".board-container");
@@ -82,16 +83,13 @@ function gameOver() {
   let elBody = document.querySelector("body");
   elBody.removeAttribute("onkeyup");
 
-  addNewGame();
-
-  document.querySelector(".endGame").innerHTML = endGameMsg(gGame.isWinner);
+  // document.querySelector(".endGame").innerHTML = endGameMsg(gGame.isWinner);
+  document.querySelector(
+    ".endGame"
+  ).innerHTML = `<div class="endGameMsg">${endGameMsg(
+    gGame.isWinner
+  )} <button onclick="init()">New Game</button></div>`;
   return;
-}
-
-function addNewGame() {
-  let elNewGame = document.querySelector(".newGame");
-
-  elNewGame.innerHTML = `<button onclick="init()">New Game</button>`;
 }
 
 function removeNewGame() {
@@ -114,7 +112,7 @@ function endGameMsg(isWinner) {
     msg = "lose :(";
   }
 
-  return `<h1 class="msg">Hey, you ${msg}</h1>`;
+  return `<h1 class="msg">Hey, you ${msg}</h1> <h3>click on button for new game</h3>`;
 }
 
 function createcherry() {

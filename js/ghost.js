@@ -1,16 +1,23 @@
 const GHOST = "😈";
+
+let gGhostID = 0;
 let gGhosts = [];
+let gGhostsGrav = [];
 let gIntervalGhosts;
-const numberOfGhosts = 3;
+
+const numberOfGhosts = 4;
+
+const BLUGHOST = '<img src="img/canKIillGhost.png" ></img>';
 
 function createGhost(board) {
   let ghost = {
+    id: gGhostID,
     location: {
       i: 3,
       j: 6,
     },
     currCellContent: FOOD,
-    ghostType: `<img src="img/${gGhosts.length}.png" ></img>`,
+    ghostType: `<img src="img/${gGhostID++}.png" ></img>`,
   };
 
   //MODEL
@@ -43,9 +50,20 @@ function moveGhost(ghost) {
   if (nextCell === WALL || nextCell === GHOST) {
     return;
   } else if (nextCell === PACMAN) {
-    gGame.isWinner = false;
-    gameOver();
-    return;
+    if (gPacman.isSuper === false) {
+      gGame.isWinner = false;
+      gameOver();
+      return;
+    } else {
+      killGhost(ghost.location);
+      gBoard[ghost.location.i][ghost.location.j] = ghost.currCellContent;
+      renderCell(ghost.location, ghost.currCellContent);
+      if (ghost.currCellContent === FOOD) {
+        ++gFood;
+      }
+      setTimeout(returnGhost, 5000);
+      return;
+    }
   }
 
   //Update Model
@@ -81,4 +99,57 @@ function getMoveDiff() {
 
 function clearGhostsArr() {
   gGhosts = [];
+}
+
+function killGhost(ghostLocation) {
+  let ghostIndex = foundGhostIndex(ghostLocation);
+  let removeGhost = gGhosts[ghostIndex];
+  gGhostsGrav.push(removeGhost);
+
+  gGhosts.splice(ghostIndex, 1);
+  if (removeGhost.currCellContent === FOOD) {
+    --gFood;
+  }
+}
+
+function foundGhostIndex(ghostLocation) {
+  for (let i = 0; i < gGhosts.length; ++i) {
+    let ghost = gGhosts[i];
+    if (
+      ghostLocation.i === ghost.location.i &&
+      ghostLocation.j === ghost.location.j
+    ) {
+      return i;
+    }
+  }
+}
+
+function returnGhost() {
+  for (let i = 0; i < gGhostsGrav.length; ++i) {
+    let ghost = gGhostsGrav[i];
+    ghost.location.i = 2;
+    ghost.location.j = 2;
+    ghost.currCellContent = gBoard[ghost.location.i][ghost.location.j];
+    ghost.ghostType = `<img src="img/${ghost.id}.png" ></img>`;
+    renderCell(ghost.location, ghost.ghostType);
+    gGhosts.push(ghost);
+  }
+
+  gGhostsGrav = [];
+}
+
+function canKIillGhost() {
+  for (let i = 0; i < gGhosts.length; ++i) {
+    let ghost = gGhosts[i];
+    ghost.ghostType = BLUGHOST;
+    renderCell(ghost.location, BLUGHOST);
+  }
+}
+
+function retunNormalGhost() {
+  for (let i = 0; i < gGhosts.length; ++i) {
+    let ghost = gGhosts[i];
+    ghost.ghostType = `<img src="img/${ghost.id}.png" ></img>`;
+    renderCell(ghost.location, ghost.ghostType);
+  }
 }
